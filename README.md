@@ -28,7 +28,7 @@
 ### 2. 致谢
 
 - 翻译API：目前谷歌翻译API已经开始收费，想用爬虫去爬谷歌翻译网页版，却有TK校验值问题。网上大部分TK校验值破解方法均已失效。多亏[py-googletrans](https://github.com/ssut/py-googletrans)提供了稳定的TK校验值破解方法，才能做成这个插件。对它们的工作表示感谢
-- 图标: 感谢[linivor](https://github.com/linivor)同学对改插件图标提出中肯意见并帮忙修改，同时提供软件测试服务。
+- 图标: 感谢[linivor](https://github.com/linivor)和[lfcxlfcx](https://github.com/lfcxlfcx)同学对改插件图标提出中肯意见并帮忙修改，同时感谢[linivor](https://github.com/linivor)同学提供的软件测试服务。
 
 ### 3. 附件说明
 
