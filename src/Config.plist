@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Actions</key>
+	<array>
+		<dict>
+			<key>Image File</key>
+			<string>tab.png</string>
+			<key>Requirements</key>
+			<array>
+				<string>copy</string>
+			</array>
+            <key>Shell Script File</key>
+            <string>go.sh</string>
+			<key>Long Running</key>
+			<true/>
+			<key>Title</key>
+			<string>Google Translate</string>
+		</dict>
+	</array>
+	<key>Extension Identifier</key>
+	<string>com.wizyoung.google_translate.extension</string>
+
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Option Identifier</key>
+			<string>site</string>
+			<key>Option Label</key>
+			<string>Google Translate Site</string>
+			<key>Option Default Value</key>
+			<string>translate.google.cn</string>
+			<key>Option Type</key>
+			<string>multiple</string>
+			<key>Option Values</key>
+			<array>
+					<string>translate.google.com</string>
+					<string>translate.google.cn</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Option Identifier</key>
+			<string>lang</string>
+			<key>Option Label</key>
+			<string>Target Foreign Language</string>
+			<key>Option Default Value</key>
+			<string>English</string>
+			<key>Option Type</key>
+			<string>multiple</string>
+			<key>Option Values</key>
+			<array>
+					<string>English</string>
+					<string>German</string>
+					<string>Korean</string>
+					<string>Japanese</string>
+					<string>French</string>
+					<string>Russian</string>
+					<string>Latin</string>
+					<string>Spanish</string>
+					<string>Italian</string>
+					<string>Italian</string>
+					<string>Valyrian</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Option Default Value</key>
+			<false/>
+			<key>Option Identifier</key>
+			<string>toclipboard</string>
+			<key>Option Label</key>
+			<string>复制结果到剪贴板</string>
+			<key>Option Type</key>
+			<string>boolean</string>
+		</dict>
+	</array>
+
+	<key>Extension Name</key>
+	<string>Google Translate</string>
+	<key>Required Software Version</key>
+	<integer>701</integer>
+</dict>
+</plist>

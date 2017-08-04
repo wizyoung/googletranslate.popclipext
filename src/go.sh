@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python translate.py --site $POPCLIP_OPTION_SITE  --lang $POPCLIP_OPTION_LANG --toclipboard $POPCLIP_OPTION_TOCLIPBOARD $POPCLIP_URLENCODED_TEXT

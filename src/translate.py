@@ -1,0 +1,101 @@
+# coding: utf-8
+import argparse
+import os
+import sys
+import requests
+import re
+from urllib import unquote
+from googletrans import Translator
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+parser = argparse.ArgumentParser()
+parser.add_argument('query', nargs='?', default=None)
+parser.add_argument('--site', dest='site', nargs='?', default=None)
+parser.add_argument('--lang', dest='lang', nargs='?', default=None)
+parser.add_argument('--toclipboard', dest='toclipboard', nargs='?', default=None)
+args = parser.parse_args()
+
+site = args.site
+lang = args.lang
+toclipboard = args.toclipboard
+
+# 这里几个坑
+# 接受选中的文字最好用$POPCLIP_URLENCODED_TEXT，编码为urlcode形式
+# 因为$POPCLIP_TEXT不能接受空格，不然报错，坑
+# 然后用urllib的unquote反向解码一下
+# 最后decode('utf-8')，不然后面的函数无法判断是否为中文
+query = unquote(args.query)
+query = query.decode('utf-8')
+
+def shelloutput(result, toclipboard):
+    os.environ['result'] = result
+    shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
+        --title "翻译结果" \
+        --icon-file gt.png \
+        --text "$result"'
+    os.system(shell)
+    if toclipboard == '1':
+        os.system('echo "$result" |/usr/bin/pbcopy')
+
+def erroroutput():
+    shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
+        --title "Something Went Wrong" \
+        --icon-file error.png \
+        --text "我也不知道发生了什么..."'
+    os.system(shell)
+
+def hahaha():
+    shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
+        --title "你居然真的选了瓦雷利亚语😂" \
+        --icon-file haha.png \
+        --text "哈哈哈，怎么可能有瓦雷利亚语的翻译啊，你是权游看多了吧233333"'
+    os.system(shell)
+
+def isChinese(query):
+    if re.search(ur"[\u4e00-\u9fa5]+", query):
+        return True
+    else:
+        return False
+
+def translate(query, dest='zh-CN'):
+    if site == 'translate.google.cn':
+        service_urls = ['translate.google.cn']
+    elif site == 'translate.google.com':
+        service_urls = ['translate.google.com']
+    translator = Translator(service_urls=service_urls)  # 国内用户不用翻墙
+    result = translator.translate(query, dest=dest)
+    return result.text
+
+if lang  == 'English':
+    dst = 'en'
+elif lang == 'German':
+    dst = 'de'
+elif lang == 'Korean':
+    dst = 'ko'
+elif lang == 'Japanese':
+    dst = 'ja'
+elif lang == 'French':
+    dst = 'fr'
+elif lang == 'Russian':
+    dst == 'ru'
+elif lang == 'Latin':
+    dst == 'la'
+elif lang == 'Spanish':
+    dst = 'es'
+elif lang == 'Italian':
+    dst = 'it'
+elif lang == 'Valyrian':
+    hahaha()
+    exit()
+
+if not query:
+    erroroutput()
+else:
+    if isChinese(query):
+        shelloutput(translate(query, dst), toclipboard)
+    else:
+        shelloutput(translate(query), toclipboard)
+
+
