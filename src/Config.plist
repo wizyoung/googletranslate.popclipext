@@ -64,6 +64,21 @@
 			</array>
 		</dict>
 		<dict>
+			<key>Option Identifier</key>
+			<string>location</string>
+			<key>Option Label</key>
+			<string>Output Window Location</string>
+			<key>Option Default Value</key>
+			<string>topright</string>
+			<key>Option Type</key>
+			<string>multiple</string>
+			<key>Option Values</key>
+			<array>
+					<string>center</string>
+					<string>topright</string>
+			</array>
+		</dict>
+		<dict>
 			<key>Option Default Value</key>
 			<false/>
 			<key>Option Identifier</key>

@@ -15,11 +15,13 @@ parser.add_argument('query', nargs='?', default=None)
 parser.add_argument('--site', dest='site', nargs='?', default=None)
 parser.add_argument('--lang', dest='lang', nargs='?', default=None)
 parser.add_argument('--toclipboard', dest='toclipboard', nargs='?', default=None)
+parser.add_argument('--location', dest='location', nargs='?', default=None)
 args = parser.parse_args()
 
 site = args.site
 lang = args.lang
 toclipboard = args.toclipboard
+location = args.location
 
 # 这里几个坑
 # 接受选中的文字最好用$POPCLIP_URLENCODED_TEXT，编码为urlcode形式
@@ -29,12 +31,20 @@ toclipboard = args.toclipboard
 query = unquote(args.query)
 query = query.decode('utf-8')
 
-def shelloutput(result, toclipboard):
+def shelloutput(result, toclipboard, location):
     os.environ['result'] = result
-    shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
-        --title "翻译结果" \
+    if location == 'topright':
+        shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
+            --title "翻译结果" \
+            --icon-file gt.png \
+            --text "$result"'
+    else:
+        shell = 'exec ./dialog/Contents/MacOS/cocoaDialog msgbox\
+        --title "Google Translate" \
+        --text "翻译结果" \
         --icon-file gt.png \
-        --text "$result"'
+        --informative-text "$result" \
+        --button1 "OK"'
     os.system(shell)
     if toclipboard == '1':
         os.system('echo "$result" |/usr/bin/pbcopy')
@@ -94,8 +104,8 @@ if not query:
     erroroutput()
 else:
     if isChinese(query):
-        shelloutput(translate(query, dst), toclipboard)
+        shelloutput(translate(query, dst), toclipboard, location)
     else:
-        shelloutput(translate(query), toclipboard)
+        shelloutput(translate(query), toclipboard, location)
 
 
