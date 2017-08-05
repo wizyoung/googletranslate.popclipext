@@ -35,16 +35,17 @@ def shelloutput(result, toclipboard, location):
     os.environ['result'] = result
     if location == 'topright':
         shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
-            --title "翻译结果" \
-            --icon-file gt.png \
-            --text "$result"'
+                --title "翻译结果" \
+                --icon-file gt.png \
+                --text "$result"'
     else:
-        shell = 'exec ./dialog/Contents/MacOS/cocoaDialog msgbox\
-        --title "Google Translate" \
-        --text "翻译结果" \
-        --icon-file gt.png \
-        --informative-text "$result" \
-        --button1 "OK"'
+        shell = 'rv=`./dialog/Contents/MacOS/cocoaDialog msgbox \
+            --title "Google Translate" \
+            --text "翻译结果" \
+            --icon-file gt.png \
+            --informative-text "$result" \
+            --button1 "OK" --button3 "复制结果"` '
+        shell = shell + '\n if [ "$rv" == "3" ]; then echo "$result" | /usr/bin/pbcopy ;fi'
     os.system(shell)
     if toclipboard == '1':
         os.system('echo "$result" |/usr/bin/pbcopy')
