@@ -24,10 +24,12 @@
   - `Google Translate Site`: 要使用的谷歌翻译服务器。墙内的朋友请选择`translate.google.cn`，墙外的选择`translate.google.com`
   - `Target Foreign Language`: 目标外语。程序将对划中的语言进行检测，若为中文，则翻译为选中的目标外语；若为非中文，无论什么语言，一律翻译为中文。
 
-  ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/3.png?raw=true)
 
   - `Output Window Location`：选择翻译结果是在右上角显示，还是屏幕中央弹窗显示。默认前者。
+
   - 若勾选`复制结果到剪贴板`每次翻译的结果将自动复制到剪贴板，默认该选项关闭。
+
+    ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/1.png?raw=true)
 
 - 若要后期更改设置，点击popclip下拉列表，再点击最下面的笔标记，会看到`Google Translate`插件右边有个齿轮图标，点击进去即可修改。
 
