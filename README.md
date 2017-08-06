@@ -29,7 +29,7 @@
 
   - 若勾选`复制结果到剪贴板`每次翻译的结果将自动复制到剪贴板，默认该选项关闭。
 
-    ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/1.png?raw=true)
+    ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/settings.png?raw=true)
 
 - 若要后期更改设置，点击popclip下拉列表，再点击最下面的笔标记，会看到`Google Translate`插件右边有个齿轮图标，点击进去即可修改。
 
