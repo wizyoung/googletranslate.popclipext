@@ -9,9 +9,13 @@
 
   **右上角Bubble弹窗默认4秒后自动消失，若鼠标移动到Bubble内，则不会自动消失。**
 
-  ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/1.png?raw=true)
+  - 英译中:
 
-  ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/2.png?raw=true)
+    ![](https://raw.githubusercontent.com/wizyoung/googletranslate.popclipext/master/3.gif)
+
+  - 中译英:
+
+    ![](https://raw.githubusercontent.com/wizyoung/googletranslate.popclipext/master/4.gif)
 
 - 使用方法:
 
