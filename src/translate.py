@@ -23,11 +23,6 @@ lang = args.lang
 toclipboard = args.toclipboard
 location = args.location
 
-# 这里几个坑
-# 接受选中的文字最好用$POPCLIP_URLENCODED_TEXT，编码为urlcode形式
-# 因为$POPCLIP_TEXT不能接受空格，不然报错，坑
-# 然后用urllib的unquote反向解码一下
-# 最后decode('utf-8')，不然后面的函数无法判断是否为中文
 query = unquote(args.query)
 query = query.decode('utf-8')
 

@@ -40,7 +40,7 @@
 - 界面: 弹窗显示界面使用了[cocoaDialog](http://mstratman.github.io/cocoadialog/)。
 - 图标: 感谢[linivor](https://github.com/linivor)和[lfcxlfcx](https://github.com/lfcxlfcx)同学对改插件图标提出中肯意见并帮忙修改，同时感谢[linivor](https://github.com/linivor)同学提供的软件测试服务。
 
-### 3. 附件说明
+### 3. 附加说明
 
 本人同时制作了官方API版本的谷歌翻译popclip插件，需要的可Email联系本人。
 
