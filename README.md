@@ -1,7 +1,7 @@
 # Google Translate(PopClipExtension)
 [中文说明](https://github.com/wizyoung/googletranslate.popclipext/blob/master/README_CN.md)
 
-A unofficial free Google translate PopClip Extension based on [Googletrans Python API](https://github.com/ssut/py-googletrans) and [cocoaDialog](https://cocoadialog.com/).
+An unofficial free Google translate PopClip Extension based on [Googletrans Python API](https://github.com/ssut/py-googletrans) and [cocoaDialog](https://cocoadialog.com/).
 
 ## Preview
 
