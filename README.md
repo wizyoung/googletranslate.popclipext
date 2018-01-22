@@ -33,9 +33,11 @@ Unzip the file from [Releases](https://github.com/wizyoung/googletranslate.popcl
 ## TODO
 
 - [ ] Result Bubble beside the selected words.
+- [ ] Autoupdate.
 
 ## Thank You
 
 - [Googletrans Python API](https://github.com/ssut/py-googletrans): A **free** and **unlimited** python library that implemented Google Translate API.
 - [cocoaDialog](https://cocoadialog.com/): Create macOS dialogs from the command line easily.
 - [Turbo_祥](https://weibo.com/u/2627732300?topnav=1&wvr=6&topsug=1) and [把那该死的球传给我](https://weibo.com/u/2282786300?refer_flag=1001030101_): They helped design the beautiful icon and test this extension.
+

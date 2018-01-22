@@ -41,9 +41,11 @@
 ## 4. TODO
 
 - [ ] 翻译结果随鼠标显示在文字旁
+- [ ] 自动更新机制
 
 ## 5. 致谢
 
 - [Googletrans Python API](https://github.com/ssut/py-googletrans): 一个免费的谷歌翻译第三方 Python API。
 - [cocoaDialog](https://cocoadialog.com/): 简单通过命令行生成 macOS 对话框。
 - [Turbo_祥](https://weibo.com/u/2627732300?topnav=1&wvr=6&topsug=1) 和 [把那该死的球传给我](https://weibo.com/u/2282786300?refer_flag=1001030101_): 两位朋友帮我设计和修改了图标，并对扩展做了相应的测试。
+
