@@ -1,42 +1,23 @@
 # coding: utf-8
 import argparse
 import os
-import sys
-import requests
 import re
 from urllib import unquote
+
+import requests
 from googletrans import Translator
-
-reload(sys)
-sys.setdefaultencoding('utf8')
-
-parser = argparse.ArgumentParser()
-parser.add_argument('query', nargs='?', default=None)
-parser.add_argument('--site', dest='site', nargs='?', default=None)
-parser.add_argument('--lang', dest='lang', nargs='?', default=None)
-parser.add_argument('--toclipboard', dest='toclipboard', nargs='?', default=None)
-parser.add_argument('--location', dest='location', nargs='?', default=None)
-args = parser.parse_args()
-
-site = args.site
-lang = args.lang
-toclipboard = args.toclipboard
-location = args.location
-
-query = unquote(args.query)
-query = query.decode('utf-8')
 
 def shelloutput(result, toclipboard, location):
     os.environ['result'] = result
     if location == 'topright':
         shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
-                --title "翻译结果" \
+                --title "Translation Result" \
                 --icon-file gt.png \
                 --text "$result"'
     else:
         shell = 'rv=`./dialog/Contents/MacOS/cocoaDialog msgbox \
             --title "Google Translate" \
-            --text "翻译结果" \
+            --text "Translation Result" \
             --icon-file gt.png \
             --informative-text "$result" \
             --button1 "OK" --button3 "复制结果"` '
@@ -45,63 +26,148 @@ def shelloutput(result, toclipboard, location):
     if toclipboard == '1':
         os.system('echo "$result" |/usr/bin/pbcopy')
 
-def erroroutput():
-    shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
-        --title "Something Went Wrong" \
-        --icon-file error.png \
-        --text "我也不知道发生了什么..."'
-    os.system(shell)
+LANGUAGES = {
+    'Afrikaans': 'af',
+    'Albanian': 'sq',
+    'Amharic': 'am',
+    'Arabic': 'ar',
+    'Armenian': 'hy',
+    'Azerbaijani': 'az',
+    'Basque': 'eu',
+    'Belarusian': 'be',
+    'Bengali': 'bn',
+    'Bosnian': 'bs',
+    'Bulgarian': 'bg',
+    'Catalan': 'ca',
+    'Cebuano': 'ceb',
+    'Chichewa': 'ny',
+    'Chinese_Simplified': 'zh-CN',
+    'Chinese_Traditional': 'zh-TW',
+    'Corsican': 'co',
+    'Croatian': 'hr',
+    'Czech': 'cs',
+    'Danish': 'da',
+    'Dutch': 'nl',
+    'English': 'en',
+    'Esperanto': 'eo',
+    'Estonian': 'et',
+    'Filipino': 'tl',
+    'Finnish': 'fi',
+    'French': 'fr',
+    'Frisian': 'fy',
+    'Galician': 'gl',
+    'Georgian': 'ka',
+    'German': 'de',
+    'Greek': 'el',
+    'Gujarati': 'gu',
+    'Haitian_creole': 'ht',
+    'Hausa': 'ha',
+    'Hawaiian': 'haw',
+    'Hebrew': 'iw',
+    'Hindi': 'hi',
+    'Hmong': 'hmn',
+    'Hungarian': 'hu',
+    'Icelandic': 'is',
+    'Igbo': 'ig',
+    'Indonesian': 'id',
+    'Irish': 'ga',
+    'Italian': 'it',
+    'Japanese': 'ja',
+    'Javanese': 'jw',
+    'Kannada': 'kn',
+    'Kazakh': 'kk',
+    'Khmer': 'km',
+    'Korean': 'ko',
+    'Kurdish': 'ku',
+    'Kyrgyz': 'ky',
+    'Lao': 'lo',
+    'Latin': 'la',
+    'Latvian': 'lv',
+    'Lithuanian': 'lt',
+    'Luxembourgish': 'lb',
+    'Macedonian': 'mk',
+    'Malagasy': 'mg',
+    'Malay': 'ms',
+    'Malayalam': 'ml',
+    'Maltese': 'mt',
+    'Maori': 'mi',
+    'Marathi': 'mr',
+    'Mongolian': 'mn',
+    'Myanmar': 'my',
+    'Nepali': 'ne',
+    'Norwegian': 'no',
+    'Pashto': 'ps',
+    'Persian': 'fa',
+    'Polish': 'pl',
+    'Portuguese': 'pt',
+    'Punjabi': 'pa',
+    'Romanian': 'ro',
+    'Russian': 'ru',
+    'Samoan': 'sm',
+    'Scots_gaelic': 'gd',
+    'Serbian': 'sr',
+    'Sesotho': 'st',
+    'Shona': 'sn',
+    'Sindhi': 'sd',
+    'Sinhala': 'si',
+    'Slovak': 'sk',
+    'Slovenian': 'sl',
+    'Somali': 'so',
+    'Spanish': 'es',
+    'Sundanese': 'su',
+    'Swahili': 'sw',
+    'Swedish': 'sv',
+    'Tajik': 'tg',
+    'Tamil': 'ta',
+    'Telugu': 'te',
+    'Thai': 'th',
+    'Turkish': 'tr',
+    'Ukrainian': 'uk',
+    'Urdu': 'ur',
+    'Uzbek': 'uz',
+    'Vietnamese': 'vi',
+    'Welsh': 'cy',
+    'Xhosa': 'xh',
+    'Yiddish': 'yi',
+    'Yoruba': 'yo',
+    'Zulu': 'zu'}
 
-def hahaha():
-    shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
-        --title "你居然真的选了瓦雷利亚语😂" \
-        --icon-file haha.png \
-        --text "哈哈哈，怎么可能有瓦雷利亚语的翻译啊，你是权游看多了吧233333"'
-    os.system(shell)
+if __name__ == '__main__':
 
-def isChinese(query):
-    if re.search(ur"[\u4e00-\u9fa5]+", query):
-        return True
-    else:
-        return False
+    parser = argparse.ArgumentParser()
+    parser.add_argument('query', nargs='?', default=None)
+    parser.add_argument('--site', dest='site', nargs='?', default=None)
+    parser.add_argument('--motherlang', dest='motherlang', nargs='?', default=None)
+    parser.add_argument('--destlang', dest='destlang', nargs='?', default=None)
+    parser.add_argument('--toclipboard', dest='toclipboard', nargs='?', default=None)
+    parser.add_argument('--location', dest='location', nargs='?', default=None)
+    args = parser.parse_args()
 
-def translate(query, dest='zh-CN'):
+    site = args.site
+    motherlang = args.motherlang
+    destlang = args.destlang
+    toclipboard = args.toclipboard
+    location = args.location
+    query = args.query
+
+    query = unquote(query)
+    query = query.decode('utf-8')
+
     if site == 'translate.google.cn':
         service_urls = ['translate.google.cn']
     elif site == 'translate.google.com':
         service_urls = ['translate.google.com']
-    translator = Translator(service_urls=service_urls)  # 国内用户不用翻墙
-    result = translator.translate(query, dest=dest)
-    return result.text
 
-if lang  == 'English':
-    dst = 'en'
-elif lang == 'German':
-    dst = 'de'
-elif lang == 'Korean':
-    dst = 'ko'
-elif lang == 'Japanese':
-    dst = 'ja'
-elif lang == 'French':
-    dst = 'fr'
-elif lang == 'Russian':
-    dst == 'ru'
-elif lang == 'Latin':
-    dst == 'la'
-elif lang == 'Spanish':
-    dst = 'es'
-elif lang == 'Italian':
-    dst = 'it'
-elif lang == 'Valyrian':
-    hahaha()
-    exit()
+    translator = Translator(service_urls=service_urls)
 
-if not query:
-    erroroutput()
-else:
-    if isChinese(query):
-        shelloutput(translate(query, dst), toclipboard, location)
+    detectedlang = translator.detect(query).lang
+
+    # not using 'if detectedlang != LANGUAGES[motherlang]' for exceptions like
+    # 'zh-CNja' and 'ja' are both Japanese
+    if LANGUAGES[motherlang] not in detectedlang:
+        result = translator.translate(query, dest=LANGUAGES[motherlang]).text.encode('utf-8')
     else:
-        shelloutput(translate(query), toclipboard, location)
+        result = translator.translate(query, dest=LANGUAGES[destlang]).text.encode('utf-8')
 
+    shelloutput(result, toclipboard, location)
 

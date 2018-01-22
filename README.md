@@ -1,51 +1,41 @@
-# googletranslate.popclipext
-一个免费的谷歌翻译popclip插件。
+# Google Translate(PopClipExtension)
+[中文说明](https://github.com/wizyoung/googletranslate.popclipext/blob/master/README_CN.md)
 
-### 1. 使用
+A unofficial free Google translate PopClip Extension based on [Googletrans Python API](https://github.com/ssut/py-googletrans) and [cocoaDialog](https://cocoadialog.com/).
 
-- 使用效果：
+## Preview
 
-  鼠标划中待翻译句子，点击翻译图标，右上角弹出翻译。
+- English to Chinese (Simplified):
 
-  **右上角Bubble弹窗默认4秒后自动消失，若鼠标移动到Bubble内，则不会自动消失。**
+  ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/en2cn.gif)
 
-  - 英译中:
+- Chinese (Simplified) to English:
 
-    ![](https://raw.githubusercontent.com/wizyoung/googletranslate.popclipext/master/3.gif)
+  ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/cn2en.gif)
 
-  - 中译英:
+  The pop-up Bubble containing translation results will disappear automatically after 4 sec unless you move the mouse into it.
 
-    ![](https://raw.githubusercontent.com/wizyoung/googletranslate.popclipext/master/4.gif)
+## Settings
 
-- 使用方法:
+- `Google Translate Site`: Choosing from `translate.google.cn` (default) or `translate.google.com`. The `.cn` server is for users in mainland China where the `.com` server is blocked by the government. 
+- `Destination Language` and `Mother Language`: If the selected text is not the `Mother Language`, the words will be translated to the `Mother Language`. Else, the words will be translated to the `Destination Language`.
+- `Output Window Location`: Where the result window will be. Choosing from `topright `(default) or `center`.
+- `Copy the results`: Wether to copy the results to clipboard after the translation.
 
-  初次使用，设置`Google Translate Site`，`Target Foreign Language`和`Output Window Location`字段，并勾选是否`复制结果到剪贴板`。
+![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/settings.png?raw=true)
 
-  - `Google Translate Site`: 要使用的谷歌翻译服务器。墙内的朋友请选择`translate.google.cn`，墙外的选择`translate.google.com`
-  - `Target Foreign Language`: 目标外语。程序将对划中的语言进行检测，若为中文，则翻译为选中的目标外语；若为非中文，无论什么语言，一律翻译为中文。
+You can change all these settings after clicking the pencil shaped icon at the bottom of the popclip drop-down list.
 
+## Install
 
-  - `Output Window Location`：选择翻译结果是在右上角显示，还是屏幕中央弹窗显示。默认前者。
+Unzip the file from [Releases](https://github.com/wizyoung/googletranslate.popclipext/releases) and double click the .popclipext file to install it.
 
-  - 若勾选`复制结果到剪贴板`每次翻译的结果将自动复制到剪贴板，默认该选项关闭。
+## TODO
 
-    ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/settings.png?raw=true)
+- [ ] Result Bubble beside the selected words.
 
-- 若要后期更改设置，点击popclip下拉列表，再点击最下面的笔标记，会看到`Google Translate`插件右边有个齿轮图标，点击进去即可修改。
+## Thank You
 
-
-### 2. 致谢
-
-- 翻译API：目前谷歌翻译API已经开始收费，想用爬虫去爬谷歌翻译网页版，却有TK校验值问题。网上大部分TK校验值破解方法均已失效。多亏[py-googletrans](https://github.com/ssut/py-googletrans)提供了稳定的TK校验值破解方法，才能做成这个插件。对它们的工作表示感谢
-- 界面: 弹窗显示界面使用了[cocoaDialog](http://mstratman.github.io/cocoadialog/)。
-- 图标: 感谢[linivor](https://github.com/linivor)和[lfcxlfcx](https://github.com/lfcxlfcx)同学对改插件图标提出中肯意见并帮忙修改，同时感谢[linivor](https://github.com/linivor)同学提供的软件测试服务。
-
-### 3. 附加说明
-
-本人同时制作了官方API版本的谷歌翻译popclip插件，需要的可Email联系本人。
-
-### 4. 下载链接
-
-[Release](https://github.com/wizyoung/googletranslate.popclipext/releases)
-
-
+- [Googletrans Python API](https://github.com/ssut/py-googletrans): A **free** and **unlimited** python library that implemented Google Translate API.
+- [cocoaDialog](https://cocoadialog.com/): Create macOS dialogs from the command line easily.
+- [Turbo_祥](https://weibo.com/u/2627732300?topnav=1&wvr=6&topsug=1) and [把那该死的球传给我](https://weibo.com/u/2282786300?refer_flag=1001030101_): They helped design the beautiful icon and test this extension.

@@ -8,11 +8,11 @@
 			<key>Image File</key>
 			<string>tab.png</string>
 			<key>Requirements</key>
-			<array>
-				<string>copy</string>
-			</array>
+            <array>
+                <string>copy</string>
+            </array>
             <key>Shell Script File</key>
-            <string>go.sh</string>
+            <string>translate.sh</string>
 			<key>Long Running</key>
 			<true/>
 			<key>Title</key>
@@ -21,7 +21,6 @@
 	</array>
 	<key>Extension Identifier</key>
 	<string>com.wizyoung.google_translate.extension</string>
-
 	<key>Options</key>
 	<array>
 		<dict>
@@ -41,26 +40,240 @@
 		</dict>
 		<dict>
 			<key>Option Identifier</key>
-			<string>lang</string>
+			<string>destlang</string>
 			<key>Option Label</key>
-			<string>Target Foreign Language</string>
+			<string>Destination Language</string>
 			<key>Option Default Value</key>
 			<string>English</string>
 			<key>Option Type</key>
 			<string>multiple</string>
 			<key>Option Values</key>
 			<array>
+					<string>Armenian</string>
+					<string>Afrikaans</string>
+					<string>Amharic</string>
+					<string>Arabic</string>
+					<string>Azerbaijani</string>
+					<string>Albanian</string>
+					<string>Basque</string>
+					<string>Belarusian</string>
+					<string>Bulgarian</string>
+					<string>Bengali</string>
+					<string>Bosnian</string>
+					<string>Cebuano</string>
+					<string>Chinese_Simplified</string>
+					<string>Chinese_Traditional</string>
+					<string>Corsican</string>
+					<string>Catalan</string>
+					<string>Czech</string>
+					<string>Croatian</string>
+					<string>Chichewa</string>
+					<string>Danish</string>
+					<string>Dutch</string>
+					<string>Esperanto</string>
 					<string>English</string>
-					<string>German</string>
-					<string>Korean</string>
-					<string>Japanese</string>
+					<string>Estonian</string>
+					<string>Filipino</string>
+					<string>Filipino</string>
 					<string>French</string>
-					<string>Russian</string>
+					<string>Frisian</string>
+					<string>Finnish</string>
+					<string>Gujarati</string>
+					<string>Galician</string>
+					<string>German</string>
+					<string>Greek</string>
+					<string>Georgian</string>
+					<string>Hawaiian</string>
+					<string>Haitian_creole</string>
+					<string>Hungarian</string>
+					<string>Hmong</string>
+					<string>Hindi</string>
+					<string>Hausa</string>
+					<string>Hebrew</string>
+					<string>Hebrew</string>
+					<string>Irish</string>
+					<string>Icelandic</string>
+					<string>Italian</string>
+					<string>Indonesian</string>
+					<string>Igbo</string>
+					<string>Javanese</string>
+					<string>Japanese</string>
+					<string>Kurdish</string>
+					<string>Kazakh</string>
+					<string>Korean</string>
+					<string>Kannada</string>
+					<string>Khmer</string>
+					<string>Kyrgyz</string>
+					<string>Luxembourgish</string>
 					<string>Latin</string>
+					<string>Lao</string>
+					<string>Latvian</string>
+					<string>Lithuanian</string>
+					<string>Malagasy</string>
+					<string>Malayalam</string>
+					<string>Mongolian</string>
+					<string>Maori</string>
+					<string>Macedonian</string>
+					<string>Maltese</string>
+					<string>Malay</string>
+					<string>Marathi</string>
+					<string>Myanmar</string>
+					<string>Norwegian</string>
+					<string>Nepali</string>
+					<string>Pashto</string>
+					<string>Portuguese</string>
+					<string>Punjabi</string>
+					<string>Polish</string>
+					<string>Persian</string>
+					<string>Russian</string>
+					<string>Romanian</string>
+					<string>Scots_gaelic</string>
 					<string>Spanish</string>
+					<string>Swahili</string>
+					<string>Swedish</string>
+					<string>Sundanese</string>
+					<string>Serbian</string>
+					<string>Sesotho</string>
+					<string>Slovak</string>
+					<string>Sinhala</string>
+					<string>Somali</string>
+					<string>Shona</string>
+					<string>Samoan</string>
+					<string>Slovenian</string>
+					<string>Sindhi</string>
+					<string>Turkish</string>
+					<string>Thai</string>
+					<string>Tajik</string>
+					<string>Telugu</string>
+					<string>Tamil</string>
+					<string>Ukrainian</string>
+					<string>Uzbek</string>
+					<string>Urdu</string>
+					<string>Vietnamese</string>
+					<string>Welsh</string>
+					<string>Xhosa</string>
+					<string>Yiddish</string>
+					<string>Yoruba</string>
+					<string>Zulu</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Option Identifier</key>
+			<string>motherlang</string>
+			<key>Option Label</key>
+			<string>Mother Language</string>
+			<key>Option Default Value</key>
+			<string>Chinese_Simplified</string>
+			<key>Option Type</key>
+			<string>multiple</string>
+			<key>Option Values</key>
+			<array>
+					<string>Armenian</string>
+					<string>Afrikaans</string>
+					<string>Amharic</string>
+					<string>Arabic</string>
+					<string>Azerbaijani</string>
+					<string>Albanian</string>
+					<string>Basque</string>
+					<string>Belarusian</string>
+					<string>Bulgarian</string>
+					<string>Bengali</string>
+					<string>Bosnian</string>
+					<string>Cebuano</string>
+					<string>Chinese_Simplified</string>
+					<string>Chinese_Traditional</string>
+					<string>Corsican</string>
+					<string>Catalan</string>
+					<string>Czech</string>
+					<string>Croatian</string>
+					<string>Chichewa</string>
+					<string>Danish</string>
+					<string>Dutch</string>
+					<string>Esperanto</string>
+					<string>English</string>
+					<string>Estonian</string>
+					<string>Filipino</string>
+					<string>Filipino</string>
+					<string>French</string>
+					<string>Frisian</string>
+					<string>Finnish</string>
+					<string>Gujarati</string>
+					<string>Galician</string>
+					<string>German</string>
+					<string>Greek</string>
+					<string>Georgian</string>
+					<string>Hawaiian</string>
+					<string>Haitian_creole</string>
+					<string>Hungarian</string>
+					<string>Hmong</string>
+					<string>Hindi</string>
+					<string>Hausa</string>
+					<string>Hebrew</string>
+					<string>Hebrew</string>
+					<string>Irish</string>
+					<string>Icelandic</string>
 					<string>Italian</string>
-					<string>Italian</string>
-					<string>Valyrian</string>
+					<string>Indonesian</string>
+					<string>Igbo</string>
+					<string>Javanese</string>
+					<string>Japanese</string>
+					<string>Kurdish</string>
+					<string>Kazakh</string>
+					<string>Korean</string>
+					<string>Kannada</string>
+					<string>Khmer</string>
+					<string>Kyrgyz</string>
+					<string>Luxembourgish</string>
+					<string>Latin</string>
+					<string>Lao</string>
+					<string>Latvian</string>
+					<string>Lithuanian</string>
+					<string>Malagasy</string>
+					<string>Malayalam</string>
+					<string>Mongolian</string>
+					<string>Maori</string>
+					<string>Macedonian</string>
+					<string>Maltese</string>
+					<string>Malay</string>
+					<string>Marathi</string>
+					<string>Myanmar</string>
+					<string>Norwegian</string>
+					<string>Nepali</string>
+					<string>Pashto</string>
+					<string>Portuguese</string>
+					<string>Punjabi</string>
+					<string>Polish</string>
+					<string>Persian</string>
+					<string>Russian</string>
+					<string>Romanian</string>
+					<string>Scots_gaelic</string>
+					<string>Spanish</string>
+					<string>Swahili</string>
+					<string>Swedish</string>
+					<string>Sundanese</string>
+					<string>Serbian</string>
+					<string>Sesotho</string>
+					<string>Slovak</string>
+					<string>Sinhala</string>
+					<string>Somali</string>
+					<string>Shona</string>
+					<string>Samoan</string>
+					<string>Slovenian</string>
+					<string>Sindhi</string>
+					<string>Turkish</string>
+					<string>Thai</string>
+					<string>Tajik</string>
+					<string>Telugu</string>
+					<string>Tamil</string>
+					<string>Ukrainian</string>
+					<string>Uzbek</string>
+					<string>Urdu</string>
+					<string>Vietnamese</string>
+					<string>Welsh</string>
+					<string>Xhosa</string>
+					<string>Yiddish</string>
+					<string>Yoruba</string>
+					<string>Zulu</string>
 			</array>
 		</dict>
 		<dict>
@@ -84,12 +297,11 @@
 			<key>Option Identifier</key>
 			<string>toclipboard</string>
 			<key>Option Label</key>
-			<string>复制结果到剪贴板</string>
+			<string>Copy the results</string>
 			<key>Option Type</key>
 			<string>boolean</string>
 		</dict>
 	</array>
-
 	<key>Extension Name</key>
 	<string>Google Translate</string>
 	<key>Required Software Version</key>
