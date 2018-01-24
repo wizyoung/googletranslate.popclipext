@@ -36,7 +36,7 @@
 
 ## 3. 安装
 
-解压从 [Releases](https://github.com/wizyoung/googletranslate.popclipext/releases) 下载的文件，双击.popclipext点后缀文件即可完成安装。
+从 [Releases](https://github.com/wizyoung/googletranslate.popclipext/releases) 下载的文件，双击即可完成安装。
 
 ## 4. TODO
 

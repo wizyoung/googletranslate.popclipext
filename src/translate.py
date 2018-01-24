@@ -20,7 +20,7 @@ def shelloutput(result, toclipboard, location):
             --text "Translation Result" \
             --icon-file gt.png \
             --informative-text "$result" \
-            --button1 "OK" --button3 "复制结果"` '
+            --button1 "OK" --button3 "Copy results"` '
         shell = shell + '\n if [ "$rv" == "3" ]; then echo "$result" | /usr/bin/pbcopy ;fi'
     os.system(shell)
     if toclipboard == '1':

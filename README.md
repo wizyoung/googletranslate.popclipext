@@ -20,20 +20,20 @@ An unofficial free Google translate PopClip Extension based on [Googletrans Pyth
 - `Google Translate Site`: Choosing from `translate.google.cn` (default) or `translate.google.com`. The `.cn` server is for users in mainland China where the `.com` server is blocked by the government. 
 - `Destination Language` and `Mother Language`: If the selected text is not the `Mother Language`, the words will be translated to the `Mother Language`. Else, the words will be translated to the `Destination Language`.
 - `Output Window Location`: Where the result window will be. Choosing from `topright `(default) or `center`.
-- `Copy the results`: Wether to copy the results to clipboard after the translation.
+- `Copy the results`: Whether to copy the results to clipboard after the translation.
 
 ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/settings.png?raw=true)
 
-You can change all these settings after clicking the pencil shaped icon at the bottom of the popclip drop-down list.
+You can change all these settings by clicking the pencil shaped icon at the bottom of the popclip drop-down list.
 
 ## Install
 
-Unzip the file from [Releases](https://github.com/wizyoung/googletranslate.popclipext/releases) and double click the .popclipext file to install it.
+Download the file from [Releases](https://github.com/wizyoung/googletranslate.popclipext/releases) and double click to install the extension.
 
 ## TODO
 
 - [ ] Result Bubble beside the selected words.
-- [ ] Autoupdate.
+- [ ] Auto Update.
 
 ## Thank You
 
