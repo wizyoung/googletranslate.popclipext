@@ -40,6 +40,7 @@ class TokenAcquirer(object):
 
     RE_TKK = re.compile(r'TKK=eval\(\'\(\(function\(\)\{(.+?)\}\)\(\)\)\'\);',
                         re.DOTALL)
+    RE_RAWTKK = re.compile(r'TKK=\'([^\']*)\';',re.DOTALL)
 
     def __init__(self, tkk='0', session=None, host='translate.google.com'):
         self.session = session or requests.Session()
@@ -55,6 +56,12 @@ class TokenAcquirer(object):
             return
 
         r = self.session.get(self.host)
+
+        rawtkk = self.RE_RAWTKK.search(r.text)
+        if rawtkk:
+            self.tkk = rawtkk.group(1)
+            return
+            
         # this will be the same as python code after stripping out a reserved word 'var'
         code = unicode(self.RE_TKK.search(r.text).group(1)).replace('var ', '')
         # unescape special ascii characters such like a \x3d(=)
