@@ -8,11 +8,11 @@
 
 - 英译中
 
-  ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/en2cn.gif?raw=true)
+<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/en2cn.gif?raw=true" width="70%" height="70%" />
 
 - 中译英
 
-  ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/cn2en.gif?raw=true)
+<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/cn2en.gif?raw=true" width="70%" height="70%" />
 
   点击`Copy`复制翻译结果。
 
@@ -27,7 +27,7 @@
   - `Destination Language` 和`Source Language`: 目标外语(destination language)和母语(source language)。程序将对划中的语言进行检测，若检测的语言非母语，则翻译为母语；若检测的语言为母语，则翻译为目标外语。
   - `Show Pronounce Button`: 是否显示发音按钮。
 
-![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/settings.png?raw=true)
+<div align=center><img width="30%" height="30%" src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/settings.png?raw=true"/></div>
 
 
 - 若要后期更改设置，点击popclip下拉列表，再点击最下面的铅笔标记，会看到`Google Translate`插件右边有个齿轮图标，点击进去即可修改。
@@ -55,4 +55,4 @@
 
 如果你认为此扩展对你帮助很大，不放请我喝杯咖啡吧：
 
-![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/donation.png?raw=true)
+<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/donation.png?raw=true" width="60%" height="60%" />

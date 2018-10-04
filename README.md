@@ -6,12 +6,13 @@ An unofficial free Google translate PopClip Extension based on [Googletrans Pyth
 ## Preview
 
 - English to Chinese (Simplified):
+  
+<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/en2cn.gif?raw=true" width="70%" height="70%" />
 
-  ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/en2cn.gif?raw=true)
 
 - Chinese (Simplified) to English:
 
-  ![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/cn2en.gif?raw=true)
+<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/cn2en.gif?raw=true" width="70%" height="70%" />
 
   Click `Copy` to copy the translated results.
 
@@ -23,7 +24,8 @@ An unofficial free Google translate PopClip Extension based on [Googletrans Pyth
 - `Destination Language` and `Source Language`: If the selected text is not the `Source Language`, the sentences will be translated to the `Source Language`. Otherwise, the  sentences will be translated to the `Destination Language`.
 - `Show Pronounece Button`: Whether to show the pronounce button. Default to False.
 
-![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/settings.png?raw=true)
+<div align=center><img width="30%" height="30%" src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/settings.png?raw=true"/></div>
+
 
 You can change all these settings by clicking the pencil shaped icon at the bottom of the popclip drop-down list.
 
@@ -49,5 +51,5 @@ It's the bug of PopClip. You can manually  trigger PopClip window to appear by A
 
 If this extension helps you a lot, you can support me by:
 
-![](https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/donation.png?raw=true)
+<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/donation.png?raw=true" width="60%" height="60%" />
 
