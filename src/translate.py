@@ -1,30 +1,110 @@
 # coding: utf-8
 import argparse
 import os
-import re
 from urllib import unquote
+import subprocess
+import datetime
 
 import requests
 from googletrans import Translator
 
-def shelloutput(result, toclipboard, location):
+def Pashua_run(result, show_pronounce, config_data=None):
+    Pashua_path = './Pashua/Contents/MacOS/Pashua'
+    s=subprocess.Popen([Pashua_path,  "-"],
+                        stdin=subprocess.PIPE,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE)
+    if not config_data:
+        config_data = """
+        # set the window title
+        *.title = Google Translate
+        *.floating = 1
+
+        # the translation results
+        result.type = text
+        result.text = {}
+        result.width = 400
+
+        # # default ok button
+        # ok_button.type = defaultbutton
+
+        copy_button.type = button
+        copy_button.label = Copy
+        copy_button.tooltip = Click to copy the translated results.
+
+        """.format(result.replace('\n', '[return]'))
+        if show_pronounce == '1':
+            config_data += """
+            pronc_button.type = button
+            pronc_button.label = Pronounce
+            pronc_button.tooltip = Click to get the pronunciation of the selected sentences. Currently only support English.
+            """
+    result, _ = s.communicate(input=config_data)
+    # Parse result
+    d = {}
+    for line in result.decode('utf8').splitlines():
+        if '=' in line: 
+            k, _, v = line.partition('=')
+            d[k] = v.rstrip()
+    return d
+
+
+def shelloutput(src, show_pronounce, result):
     os.environ['result'] = result
-    if location == 'topright':
-        shell = 'exec ./dialog/Contents/MacOS/cocoaDialog bubble \
-                --title "Translation Result" \
-                --icon-file gt.png \
-                --text "$result"'
-    else:
-        shell = 'rv=`./dialog/Contents/MacOS/cocoaDialog msgbox \
-            --title "Google Translate" \
-            --text "Translation Result" \
-            --icon-file gt.png \
-            --informative-text "$result" \
-            --button1 "OK" --button3 "Copy results"` '
-        shell = shell + '\n if [ "$rv" == "3" ]; then echo "$result" | /usr/bin/pbcopy ;fi'
-    os.system(shell)
-    if toclipboard == '1':
-        os.system('echo "$result" |/usr/bin/pbcopy')
+    ret = Pashua_run(result, show_pronounce)
+    if ret['copy_button'] == '1':
+        os.system('echo "$result" | /usr/bin/pbcopy')
+    if show_pronounce == '1':
+        if ret['pronc_button'] == '1':
+            os.system('say --voice="Samantha" ' + src)
+
+
+def calc_version(version_num_str):
+    version = version_num_str.strip().split('.')
+    if len(version) == 2:
+            version = int(version[0]) * 100 + int(version[1]) * 10
+    elif len(version) == 3:
+            version = int(version[0]) * 100 + int(version[1]) * 10 + int(version[2])
+    return version
+
+def check_update():
+    now_time = datetime.datetime.today()
+    now_year, now_month, now_day = now_time.year, now_time.month, now_time.day
+    now_time_stamp = '{}-{}-{}'.format(now_year, now_month, now_day)
+    if now_day % 7 == 0:
+        check = open('check', 'r').read().strip()
+        if check != now_time_stamp:
+            open('check', 'w').write(now_time_stamp)
+
+            version_url = 'https://github.com/wizyoung/googletranslate.popclipext/blob/master/src/version?raw=true'
+            version_response = requests.get(version_url)
+            if version_response.status_code == 200:
+                remote_version_str = version_response.content
+                remote_version = calc_version(remote_version_str)
+                current_version_str = open('./version', 'r').read()
+                current_version = calc_version(current_version_str)
+
+                if remote_version > current_version:
+                    config_data = """
+                    *.title = Check Updates
+                    *.floating = 1
+
+                    # the translation results
+                    result.type = text
+                    result.text = Found a new version {} -- your current version is {}. [return]Click 'OK' to download. 
+                    result.width = 400
+
+                    # default ok button
+                    ok_button.type = defaultbutton
+
+                    cancel_button.type = button
+                    cancel_button.label = Cancel
+                    """.format(remote_version_str, current_version_str)
+                    ret = Pashua_run(None, None, config_data)
+                    if ret['ok_button'] == '1':
+                        import webbrowser
+                        webbrowser.open('https://github.com/wizyoung/googletranslate.popclipext/releases')
+
 
 LANGUAGES = {
     'Afrikaans': 'af',
@@ -132,26 +212,25 @@ LANGUAGES = {
     'Yoruba': 'yo',
     'Zulu': 'zu'}
 
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('query', nargs='?', default=None)
     parser.add_argument('--site', dest='site', nargs='?', default=None)
-    parser.add_argument('--motherlang', dest='motherlang', nargs='?', default=None)
+    parser.add_argument('--srclang', dest='srclang', nargs='?', default=None)
     parser.add_argument('--destlang', dest='destlang', nargs='?', default=None)
-    parser.add_argument('--toclipboard', dest='toclipboard', nargs='?', default=None)
-    parser.add_argument('--location', dest='location', nargs='?', default=None)
+    parser.add_argument('--show_pronounce', dest='show_pronounce', nargs='?', default=None)
     args = parser.parse_args()
 
     site = args.site
-    motherlang = args.motherlang
+    srclang = args.srclang
     destlang = args.destlang
-    toclipboard = args.toclipboard
-    location = args.location
+    show_pronounce = args.show_pronounce
     query = args.query
 
-    query = unquote(query)
-    query = query.decode('utf-8')
+    unquoted_query = unquote(query)
+    query = unquoted_query.decode('utf-8')
 
     if site == 'translate.google.cn':
         service_urls = ['translate.google.cn']
@@ -162,12 +241,13 @@ if __name__ == '__main__':
 
     detectedlang = translator.detect(query).lang
 
-    # not using 'if detectedlang != LANGUAGES[motherlang]' for exceptions like
+    # not using 'if detectedlang != LANGUAGES[srclang]' for exceptions like
     # 'zh-CNja' and 'ja' are both Japanese
-    if LANGUAGES[motherlang] not in detectedlang:
-        result = translator.translate(query, dest=LANGUAGES[motherlang]).text.encode('utf-8')
+    if LANGUAGES[srclang] not in detectedlang:
+        result = translator.translate(query, dest=LANGUAGES[srclang]).text.encode('utf-8')
     else:
         result = translator.translate(query, dest=LANGUAGES[destlang]).text.encode('utf-8')
 
-    shelloutput(result, toclipboard, location)
+    shelloutput(unquoted_query, show_pronounce, result)
+    check_update()
 

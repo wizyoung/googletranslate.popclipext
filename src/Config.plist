@@ -159,9 +159,9 @@
 		</dict>
 		<dict>
 			<key>Option Identifier</key>
-			<string>motherlang</string>
+			<string>srclang</string>
 			<key>Option Label</key>
-			<string>Mother Language</string>
+			<string>Source Language</string>
 			<key>Option Default Value</key>
 			<string>Chinese_Simplified</string>
 			<key>Option Type</key>
@@ -277,27 +277,12 @@
 			</array>
 		</dict>
 		<dict>
-			<key>Option Identifier</key>
-			<string>location</string>
-			<key>Option Label</key>
-			<string>Output Window Location</string>
-			<key>Option Default Value</key>
-			<string>topright</string>
-			<key>Option Type</key>
-			<string>multiple</string>
-			<key>Option Values</key>
-			<array>
-					<string>center</string>
-					<string>topright</string>
-			</array>
-		</dict>
-		<dict>
 			<key>Option Default Value</key>
 			<false/>
 			<key>Option Identifier</key>
-			<string>toclipboard</string>
+			<string>pronounce</string>
 			<key>Option Label</key>
-			<string>Copy the results</string>
+			<string>Show Pronounce Button</string>
 			<key>Option Type</key>
 			<string>boolean</string>
 		</dict>
