@@ -7,12 +7,12 @@ An unofficial free Google translate PopClip Extension based on [Googletrans Pyth
 
 - English to Chinese (Simplified):
   
-<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/en2cn.gif?raw=true" width="70%" height="70%" />
+<div align=center><img width="70%" height="70%" src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/en2cn.gif?raw=true"/></div>
 
 
 - Chinese (Simplified) to English:
 
-<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/cn2en.gif?raw=true" width="70%" height="70%" />
+<div align=center><img width="70%" height="70%" src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/cn2en.gif?raw=true"/></div>
 
   Click `Copy` to copy the translated results.
 
@@ -51,5 +51,5 @@ It's the bug of PopClip. You can manually  trigger PopClip window to appear by A
 
 If this extension helps you a lot, you can support me by:
 
-<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/donation.png?raw=true" width="60%" height="60%" />
+<div align=center><img width="60%" height="60%" src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/donation.png?raw=true"/></div>
 

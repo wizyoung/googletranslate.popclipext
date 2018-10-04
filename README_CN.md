@@ -8,11 +8,11 @@
 
 - 英译中
 
-<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/en2cn.gif?raw=true" width="70%" height="70%" />
+<div align=center><img width="70%" height="70%" src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/en2cn.gif?raw=true"/></div>
 
 - 中译英
 
-<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/cn2en.gif?raw=true" width="70%" height="70%" />
+<img <div align=center><img width="70%" height="70%" src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/cn2en.gif?raw=true"/></div>
 
   点击`Copy`复制翻译结果。
 
@@ -55,4 +55,4 @@
 
 如果你认为此扩展对你帮助很大，不放请我喝杯咖啡吧：
 
-<img src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/donation.png?raw=true" width="60%" height="60%" />
+<div align=center><img width="60%" height="60%" src="https://github.com/wizyoung/googletranslate.popclipext/blob/master/screenshots/donation.png?raw=true"/></div>
