@@ -8,6 +8,7 @@ import requests
 import random
 
 from googletrans import urls, utils
+from googletrans.adapters import TimeoutAdapter
 from googletrans.compat import PY3
 from googletrans.gtoken import TokenAcquirer
 from googletrans.constants import DEFAULT_USER_AGENT, LANGCODES, LANGUAGES, SPECIAL_CASES
@@ -28,13 +29,30 @@ class Translator(object):
 
     :param user_agent: the User-Agent header to send when making requests.
     :type user_agent: :class:`str`
+
+    :param proxies: proxies configuration. 
+                    Dictionary mapping protocol or protocol and host to the URL of the proxy 
+                    For example ``{'http': 'foo.bar:3128', 'http://host.name': 'foo.bar:4012'}``
+    :type proxies: dictionary
+
+    :param timeout: Definition of timeout for Requests library.
+                    Will be used by every request.
+    :type timeout: number or a double of numbers
     """
 
-    def __init__(self, service_urls=None, user_agent=DEFAULT_USER_AGENT):
+    def __init__(self, service_urls=None, user_agent=DEFAULT_USER_AGENT,
+                 proxies=None, timeout=None):
+
         self.session = requests.Session()
+        if proxies is not None:
+            self.session.proxies = proxies
         self.session.headers.update({
             'User-Agent': user_agent,
         })
+        if timeout is not None:
+            self.session.mount('https://', TimeoutAdapter(timeout))
+            self.session.mount('http://', TimeoutAdapter(timeout))
+
         self.service_urls = service_urls or ['translate.google.com']
         self.token_acquirer = TokenAcquirer(session=self.session, host=self.service_urls[0])
 
@@ -62,6 +80,28 @@ class Translator(object):
 
         data = utils.format_json(r.text)
         return data
+
+    def _parse_extra_data(self, data):
+        response_parts_name_mapping = {
+            0: 'translation',
+            1: 'all-translations',
+            2: 'original-language',
+            5: 'possible-translations',
+            6: 'confidence',
+            7: 'possible-mistakes',
+            8: 'language',
+            11: 'synonyms',
+            12: 'definitions',
+            13: 'examples',
+            14: 'see-also',
+        }
+
+        extra = {}
+
+        for index, category in response_parts_name_mapping.items():
+            extra[category] = data[index] if (index < len(data) and data[index]) else None
+
+        return extra
 
     def translate(self, text, dest='en', src='auto'):
         """Translate text from source language to destination language
@@ -134,6 +174,8 @@ class Translator(object):
         # this code will be updated when the format is changed.
         translated = ''.join([d[0] if d[0] else '' for d in data[0]])
 
+        extra_data = self._parse_extra_data(data)
+
         # actual source language that will be recognized by Google Translator when the
         # src passed is equal to auto.
         try:
@@ -162,7 +204,7 @@ class Translator(object):
 
         # put final values into a new Translated object
         result = Translated(src=src, dest=dest, origin=origin,
-                            text=translated, pronunciation=pron)
+                            text=translated, pronunciation=pron, extra_data=extra_data)
 
         return result
 
