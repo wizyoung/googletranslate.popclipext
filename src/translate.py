@@ -1,20 +1,80 @@
 # coding: utf-8
 import argparse
 import os
-import commands
-from urllib import unquote
+import re
+import subprocess
 import datetime
-
 import requests
 from googletrans import Translator
 
+_hexdig = '0123456789ABCDEFabcdef'
+_hextobyte = None
+_asciire = re.compile('([\x00-\x7f]+)')
+
+def unquote_to_bytes(string):
+    """unquote_to_bytes('abc%20def') -> b'abc def'."""
+    if not string:
+        string.split
+        return b''
+    if isinstance(string, str):
+        string = string.encode('utf-8')
+    bits = string.split(b'%')
+    if len(bits) == 1:
+        return string
+    res = [bits[0]]
+    append = res.append
+    global _hextobyte
+    if _hextobyte is None:
+        _hextobyte = {(a + b).encode(): bytes.fromhex(a + b)
+                      for a in _hexdig for b in _hexdig}
+    for item in bits[1:]:
+        try:
+            append(_hextobyte[item[:2]])
+            append(item[2:])
+        except KeyError:
+            append(b'%')
+            append(item)
+    return b''.join(res)
+
+def unquote(string, encoding='utf-8', errors='replace'):
+    """Replace %xx escapes by their single-character equivalent. The optional
+    encoding and errors parameters specify how to decode percent-encoded
+    sequences into Unicode characters, as accepted by the bytes.decode()
+    method.
+    By default, percent-encoded sequences are decoded with UTF-8, and invalid
+    sequences are replaced by a placeholder character.
+
+    unquote('abc%20def') -> 'abc def'.
+    """
+    if isinstance(string, bytes):
+        return unquote_to_bytes(string).decode(encoding, errors)
+    if '%' not in string:
+        string.split
+        return string
+    if encoding is None:
+        encoding = 'utf-8'
+    if errors is None:
+        errors = 'replace'
+    bits = _asciire.split(string)
+    res = [bits[0]]
+    append = res.append
+    for i in range(1, len(bits), 2):
+        append(unquote_to_bytes(bits[i]).decode(encoding, errors))
+        append(bits[i + 1])
+    return ''.join(res)
+
 
 def showoutput(result):
-    disk_prefix = commands.getoutput('osascript -e \'path to desktop as text\'').split(':')[0]
+    # disk_prefix = commands.getoutput('osascript -e \'path to desktop as text\'').split(':')[0]
+
+    disk_prefix = subprocess.Popen('osascript -e \'path to desktop as text\'', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode()
+    disk_prefix = disk_prefix.split(':')[0]
+
     icon_path = disk_prefix + os.getcwd().replace('/', ':') + ':gt.png'
 
     script = '\'display dialog "%s" with icon alias ("%s") with title "Google Translate" buttons {"Copy", "OK"} default button "OK" cancel button "Copy"\'' % (result, icon_path)
-    res = commands.getoutput('osascript -e {}'.format(script))
+    # res = commands.getoutput('osascript -e {}'.format(script))
+    res = subprocess.Popen('osascript -e {}'.format(script), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode()
     if not res.startswith('button'):
         os.system('echo "{}" | /usr/bin/pbcopy'.format(result))
 
@@ -38,14 +98,14 @@ def check_update():
             version_url = 'https://github.com/wizyoung/googletranslate.popclipext/blob/master/src/version?raw=true'
             version_response = requests.get(version_url)
             if version_response.status_code == 200:
-                remote_version_str = version_response.content
+                remote_version_str = version_response.content.decode('utf-8')
                 remote_version = calc_version(remote_version_str)
                 current_version_str = open('./version', 'r').read()
                 current_version = calc_version(current_version_str)
 
                 if remote_version > current_version:
                     script = '\'display dialog "Found a new version %s -- Your current version is %s.\n\nClick OK to download." with title "Check Update" buttons {"Cancel", "OK"} default button "OK" cancel button "Cancel"\'' % (remote_version_str, current_version_str)
-                    btn_res = commands.getoutput('osascript -e {}'.format(script))
+                    btn_res = subprocess.Popen('osascript -e {}'.format(script), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode()
                     if btn_res.startswith('button'):
                         import webbrowser
                         webbrowser.open('https://github.com/wizyoung/googletranslate.popclipext/releases')
@@ -172,8 +232,7 @@ if __name__ == '__main__':
     destlang = args.destlang
     query = args.query
 
-    unquoted_query = unquote(query)
-    query = unquoted_query.decode('utf-8')
+    query = unquote(query.strip())
 
     if site == 'translate.google.cn':
         service_urls = ['translate.google.cn']
@@ -187,9 +246,9 @@ if __name__ == '__main__':
     # not using 'if detectedlang != LANGUAGES[srclang]' for exceptions like
     # 'zh-CNja' and 'ja' are both Japanese
     if LANGUAGES[srclang] not in detectedlang:
-        result = translator.translate(query, dest=LANGUAGES[srclang]).text.encode('utf-8')
+        result = translator.translate(query, dest=LANGUAGES[srclang]).text
     else:
-        result = translator.translate(query, dest=LANGUAGES[destlang]).text.encode('utf-8')
+        result = translator.translate(query, dest=LANGUAGES[destlang]).text
 
     showoutput(result)
     check_update()

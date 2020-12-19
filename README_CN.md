@@ -2,6 +2,8 @@
 
 [English Version](https://github.com/wizyoung/googletranslate.popclipext/blob/master/README.md)
 
+**说明**: 版本 3.0 起将调用的 Python 版本从 Python2 变换为 Python3，如未安装 Python3，请自行安装。
+
 一个免费的谷歌翻译 PopClip 插件，基于 [Googletrans Python API](https://github.com/ssut/py-googletrans) 制作。
 
 ## 预览

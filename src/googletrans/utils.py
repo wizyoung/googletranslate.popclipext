@@ -1,12 +1,11 @@
 """A conversion module for googletrans"""
-from __future__ import print_function
-import re
 import json
+import re
 
 
-def build_params(query, src, dest, token):
+def build_params(client, query, src, dest, token, override):
     params = {
-        'client': 'webapp',
+        'client': client,
         'sl': src,
         'tl': dest,
         'hl': dest,
@@ -16,9 +15,16 @@ def build_params(query, src, dest, token):
         'otf': 1,
         'ssel': 0,
         'tsel': 0,
-        'tk': token,
         'q': query,
     }
+
+    if token != '':
+        params['tk'] = token
+
+    if override is not None:
+        for key, value in get_items(override):
+            params[key] = value
+
     return params
 
 
@@ -26,7 +32,7 @@ def legacy_format_json(original):
     # save state
     states = []
     text = original
-    
+
     # save position for double-quoted texts
     for i, pos in enumerate(re.finditer('"', text)):
         # pos.start() is a double-quote
@@ -35,7 +41,7 @@ def legacy_format_json(original):
             nxt = text.find('"', p)
             states.append((p, text[p:nxt]))
 
-    # replace all weired characters in text
+    # replace all wiered characters in text
     while text.find(',,') > -1:
         text = text.replace(',,', ',null,')
     while text.find('[,') > -1:
@@ -53,6 +59,11 @@ def legacy_format_json(original):
 
     converted = json.loads(text)
     return converted
+
+
+def get_items(dict_object):
+    for key in dict_object:
+        yield key, dict_object[key]
 
 
 def format_json(original):

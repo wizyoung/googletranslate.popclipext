@@ -4,15 +4,12 @@ import math
 import re
 import time
 
-import requests
+import httpx
 
-
-from googletrans.compat import PY3
-from googletrans.compat import unicode
 from googletrans.utils import rshift
 
 
-class TokenAcquirer(object):
+class TokenAcquirer:
     """Google Translate API token generator
 
     translate.google.com uses a token to authorize the requests. If you are
@@ -41,8 +38,8 @@ class TokenAcquirer(object):
     RE_TKK = re.compile(r'tkk:\'(.+?)\'', re.DOTALL)
     RE_RAWTKK = re.compile(r'tkk:\'(.+?)\'', re.DOTALL)
 
-    def __init__(self, tkk='0', session=None, host='translate.google.com'):
-        self.session = session or requests.Session()
+    def __init__(self, client: httpx.Client, tkk='0', host='translate.google.com'):
+        self.client = client
         self.tkk = tkk
         self.host = host if 'http' in host else 'https://' + host
 
@@ -54,20 +51,22 @@ class TokenAcquirer(object):
         if self.tkk and int(self.tkk.split('.')[0]) == now:
             return
 
-        r = self.session.get(self.host)
+        r = self.client.get(self.host)
 
         raw_tkk = self.RE_TKK.search(r.text)
         if raw_tkk:
             self.tkk = raw_tkk.group(1)
             return
 
-        # this will be the same as python code after stripping out a reserved word 'var'
-        code = unicode(self.RE_TKK.search(r.text).group(1)).replace('var ', '')
-        # unescape special ascii characters such like a \x3d(=)
-        if PY3:  # pragma: no cover
+        try:
+            # this will be the same as python code after stripping out a reserved word 'var'
+            code = self.RE_TKK.search(r.text).group(1).replace('var ', '')
+            # unescape special ascii characters such like a \x3d(=)
             code = code.encode().decode('unicode-escape')
-        else:  # pragma: no cover
-            code = code.decode('string_escape')
+        except AttributeError:
+            raise Exception('Could not find TKK token for this request.\nSee https://github.com/ssut/py-googletrans/issues/234 for more details.')
+        except:
+            raise
 
         if code:
             tree = ast.parse(code)
@@ -111,7 +110,7 @@ class TokenAcquirer(object):
             self.tkk = result
 
     def _lazy(self, value):
-        """like lazy evalution, this method returns a lambda function that
+        """like lazy evaluation, this method returns a lambda function that
         returns value given.
         We won't be needing this because this seems to have been built for
         code obfuscation.
@@ -150,9 +149,9 @@ class TokenAcquirer(object):
             else:
                 # Python doesn't natively use Unicode surrogates, so account for those
                 a += [
-                    math.floor((val - 0x10000)/0x400 + 0xD800),
-                    math.floor((val - 0x10000)%0x400 + 0xDC00)
-                    ]
+                    math.floor((val - 0x10000) / 0x400 + 0xD800),
+                    math.floor((val - 0x10000) % 0x400 + 0xDC00)
+                ]
 
         b = self.tkk if self.tkk != '0' else ''
         d = b.split('.')
@@ -161,7 +160,7 @@ class TokenAcquirer(object):
         # assume e means char code array
         e = []
         g = 0
-        size = len(text)
+        size = len(a)
         while g < size:
             l = a[g]
             # just append if l is less than 128(ascii: DEL)
@@ -176,13 +175,13 @@ class TokenAcquirer(object):
                     if (l & 64512) == 55296 and g + 1 < size and \
                             a[g + 1] & 64512 == 56320:
                         g += 1
-                        l = 65536 + ((l & 1023) << 10) + (a[g] & 1023) # This bracket is important
+                        l = 65536 + ((l & 1023) << 10) + (a[g] & 1023)  # This bracket is important
                         e.append(l >> 18 | 240)
                         e.append(l >> 12 & 63 | 128)
                     else:
                         e.append(l >> 12 | 224)
                     e.append(l >> 6 & 63 | 128)
-                e.append(l & 63 | 128)   
+                e.append(l & 63 | 128)
             g += 1
         a = b
         for i, value in enumerate(e):

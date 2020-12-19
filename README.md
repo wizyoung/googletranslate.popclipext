@@ -1,6 +1,8 @@
 # Google Translate(PopClipExtension)
 [中文说明](https://github.com/wizyoung/googletranslate.popclipext/blob/master/README_CN.md)
 
+**NOTE**: Since version 3.0, the Python interpreter is switched from Python2 to Python3. If you don't have Python3 installed in your system, please install it yourself.
+
 An unofficial free Google translate PopClip Extension based on [Googletrans Python API](https://github.com/ssut/py-googletrans).
 
 ## Preview
