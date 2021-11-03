@@ -5,7 +5,7 @@ import re
 import subprocess
 import datetime
 import requests
-from googletrans import Translator
+from googletrans import Translator as Translator_Legacy
 
 _hexdig = '0123456789ABCDEFabcdef'
 _hextobyte = None
@@ -218,6 +218,86 @@ LANGUAGES = {
     'Zulu': 'zu'}
 
 
+class GoogleTranslate_Official(object):
+    """
+    Hints from https://github.com/ssut/py-googletrans/issues/268#issuecomment-767830480 and
+    https://github.com/Animenosekai/translate
+    """
+
+    def __init__(self, service_url):
+        self.session = requests.Session()
+        self.service_url = service_url
+
+    def translate(self, text, destination_language, source_language='auto'):
+        params = {"client": "gtx", "dt": "t", "sl": source_language, "tl": destination_language, "q": text}
+        request = self.session.get("https://translate.googleapis.com/translate_a/single", params=params)
+        response = request.json()
+        if request.status_code < 400:
+            try:
+                _detected_language = response[2]
+            except Exception:
+                _detected_language = source_language
+            return _detected_language, "".join([sentence[0] for sentence in response[0]])
+
+        params = {"client": "dict-chrome-ex", "sl": source_language, "tl": destination_language, "q": text}
+        request = self.session.get("https://clients5.google.com/translate_a/t", params=params)
+        response = request.json()
+        if request.status_code < 400:
+            try:
+                try:
+                    _detected_language = response['ld_result']["srclangs"][0]
+                except Exception:
+                    _detected_language = source_language
+                return "".join((sentence["trans"] if "trans" in sentence else "") for sentence in response["sentences"])
+            except Exception:
+                try:
+                    try:
+                        _detected_language = response[0][0][2]
+                    except Exception:
+                        _detected_language = source_language
+                    return "".join(sentence for sentence in response[0][0][0][0])
+                except Exception:  # if it fails, continue with the other endpoints
+                    pass
+
+        params = {"dt": ["t", "bd", "ex", "ld", "md", "qca", "rw", "rm", "ss", "t", "at"], "client": "gtx", "q": text, "hl": destination_language, "sl": source_language, "tl": destination_language, "dj": "1", "source": "bubble"}
+        request = self.session.get("https://translate.googleapis.com/translate_a/single", params=params)
+        response = request.json()
+        if request.status_code < 400:
+            try:
+                _detected_language = response.get("src", None)
+                if _detected_language is None:
+                    _detected_language = response.get("ld_result", {}).get("srclangs", [None])[0]
+                    if _detected_language is None:
+                        _detected_language = response.get("ld_result", {}).get("extended_srclangs", [None])[0]
+            except Exception:
+                _detected_language = source_language
+            return _detected_language, " ".join([sentence["trans"] for sentence in response["sentences"] if "trans" in sentence])
+
+        params = {"client": "gtx", "dt": ["t", "bd"], "dj": "1", "source": "input", "q": text, "sl": source_language, "tl": destination_language}
+        request = self.session.get("https://translate.googleapis.com/translate_a/single", params=params)
+        response = request.json()
+        if request.status_code < 400:
+            try:
+                _detected_language = response["src"]
+            except Exception:
+                _detected_language = source_language
+            return _detected_language, "".join([sentence["trans"] for sentence in response["sentences"] if "trans" in sentence])
+
+
+class GoogleTranslate_Legacy(object):
+    def __init__(self, service_url):
+        self.service_url = service_url
+        if isinstance(self.service_url, str):
+            self.service_url = [self.service_url]
+        self.translator = Translator_Legacy(service_urls=self.service_url)
+
+    def translate(self, text, destination_language, source_language='auto'):
+        translated = self.translator.translate(text, src=source_language, dest=destination_language)
+        _detected_language = translated.src
+        res = translated.text
+        return _detected_language, res
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
@@ -234,21 +314,26 @@ if __name__ == '__main__':
 
     query = unquote(query.strip())
 
-    if site == 'translate.google.cn':
-        service_urls = ['translate.google.cn']
-    elif site == 'translate.google.com':
-        service_urls = ['translate.google.com']
+    final_result = ''
+    for tranlate_class in [GoogleTranslate_Official, GoogleTranslate_Legacy]:
+        try:
+            translator = tranlate_class(site)
 
-    translator = Translator(service_urls=service_urls)
+            # first run
+            detected_language, result = translator.translate(query, LANGUAGES[srclang])
 
-    detectedlang = translator.detect(query).lang
+            # not using 'if detectedlang != LANGUAGES[srclang]' for exceptions like
+            # 'zh-CNja' and 'ja' are both Japanese
+            if LANGUAGES[srclang] not in detected_language:
+                final_result = result
+                break
+            else:
+                _, final_result = translator.translate(query, LANGUAGES[destlang])
+                break
+        except Exception:
+            continue
+    
+    if final_result:
+        showoutput(final_result)
 
-    # not using 'if detectedlang != LANGUAGES[srclang]' for exceptions like
-    # 'zh-CNja' and 'ja' are both Japanese
-    if LANGUAGES[srclang] not in detectedlang:
-        result = translator.translate(query, dest=LANGUAGES[srclang]).text
-    else:
-        result = translator.translate(query, dest=LANGUAGES[destlang]).text
-
-    showoutput(result)
     check_update()
