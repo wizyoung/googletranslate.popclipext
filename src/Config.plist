@@ -11,6 +11,8 @@
             <array>
                 <string>copy</string>
             </array>
+			<key>Script Interpreter</key>
+            <string>/bin/sh</string>
             <key>Shell Script File</key>
             <string>translate.sh</string>
 			<key>Long Running</key>
